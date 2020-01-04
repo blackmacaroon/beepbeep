@@ -163,29 +163,100 @@
 		  		urls: ['sounds/moon.mp3']
 				}),
 				color: '#2c3e50'
-			}
+			},
+            1: {
+                sound: new Howl({
+                    urls: ['sounds/piston-3.mp3']
+                }),
+                color: '#8e11ad'
+            },
+            2: {
+                sound: new Howl({
+                    urls: ['sounds/confetti.mp3']
+                }),
+                color: '#9e751c'
+            },
+            3: {
+                sound: new Howl({
+                    urls: ['sounds/prism-1.mp3']
+                }),
+                color: '#1c9e77'
+            },
+            4: {
+                sound: new Howl({
+                    urls: ['sounds/wipe.mp3']
+                }),
+                color: '#81b8ce'
+            },
+            5: {
+                sound: new Howl({
+                    urls: ['sounds/suspension.mp3']
+                }),
+                color: '#290874'
+            },
+            6: {
+                sound: new Howl({
+                    urls: ['sounds/splits.mp3']
+                }),
+                color: '#0a0874'
+            },
+            7: {
+                sound: new Howl({
+                    urls: ['sounds/pinwheel.mp3']
+                }),
+                color: '#201cf1'
+            },
+            8: {
+                sound: new Howl({
+                    urls: ['sounds/glimmer.mp3']
+                }),
+                color: '#f11c3f'
+            },
+            9: {
+                sound: new Howl({
+                    urls: ['sounds/flash-1.mp3']
+                }),
+                color: '#8c61cf1'
+            },
+            0: {
+                sound: new Howl({
+                    urls: ['sounds/bubbles.mp3']
+                }),
+                color: '#3ff11c'
+            }
 		}
 
 		var circles = [];
 
 		function onKeyDown(event) {
-			if(keyData[event.key]){
-				var maxPoint = new Point(view.size.width, view.size.height);
-				var randomPoint = Point.random();
-				var point = maxPoint * randomPoint;
-				var newCircle = new Path.Circle(point, 500)
-				newCircle.fillColor = keyData[event.key].color;
-				keyData[event.key].sound.play();
-				circles.push(newCircle);
-			}
-		}
-
-		function onFrame(event){
-			for(var i = 0; i < circles.length; i++){
-				circles[i].fillColor.hue += 1;
-				circles[i].scale(.9);
-			}
-		}
+            if(keyData[event.key]){
+                var maxPoint = new Point(view.size.width, view.size.height);
+                var randomPoint = Point.random();
+              var point = maxPoint * randomPoint;
+              if(point.x%2 > 1){
+                  point.x -= 250;
+                  point.y -= 250;
+                  var newCircle = new Path.Rectangle(point, new Size(500, 500))
+              }
+                else var newCircle = new Path.Circle(point, 500)
+                newCircle.fillColor = keyData[event.key].color;
+                keyData[event.key].sound.play();
+                circles.push(newCircle);
+            }
+        }
+  
+        function onFrame(event){
+            for(var i = 0; i < circles.length; i++){
+                circles[i].fillColor.hue += 2;
+              circles[i].scale(.9);
+              circles[i].rotate(8);
+              if(circles[i].area < 1){
+                  circles[i].remove();
+                  circles.splice(i, 1);
+                  i--;
+              }  
+            }
+        }
 	</script>
 </head>
 <body>
